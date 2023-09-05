@@ -23,8 +23,7 @@ namespace SpliwiseApp.Controllers
         }
        
         // POST: api/Expenses
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        // Add Expenses ansd update the balance tavble
+    
         [HttpPost]
         public async Task<ActionResult<CreateExpense>> PostExpense(CreateExpense expense)
         {
@@ -106,18 +105,30 @@ namespace SpliwiseApp.Controllers
                 transaction_Date =  DateTime.Now,
             };
             _context.Transactions.Add(newTransaction);
-            var paidUserBalance = await _context.Balances.FindAsync(transaction.paidUserId);
-            if (paidUserBalance != null)
+            var paidUserBalance = _context.Balances.Where(u => u.userId == newTransaction.paidUserId);
+            foreach(var user in paidUserBalance)
             {
-                paidUserBalance.balance_amount -= transaction.transaction_Amount;
-                _context.Balances.Update(paidUserBalance);
+                if(user.userId == newTransaction.paidUserId)
+                {
+                    user.balance_amount -= user.balance_amount;
+                }
+                if (user.debtUserId == newTransaction.payerUserId)
+                {
+                    user.balance_amount += user.balance_amount;
+                }
+
+            }
+            //if (paidUserBalance != null)
+            //{
+            //    paidUserBalance.balance_amount -= transaction.transaction_Amount;
+            //    _context.Balances.Update(paidUserBalance);
                
-            }
-            else
-            {
-                paidUserBalance.balance_amount = transaction.transaction_Amount;
-                _context.Balances.Update(paidUserBalance);
-            }
+            //}
+            //else
+            //{
+            //    paidUserBalance.balance_amount = transaction.transaction_Amount;
+            //    _context.Balances.Update(paidUserBalance);
+            //}
 
             await _context.SaveChangesAsync();
             return Ok();
