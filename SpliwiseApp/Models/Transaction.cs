@@ -17,4 +17,15 @@
 
 
     }
+    public class CreateTransaction
+    {
+        public int Id { get; set; }
+        public int groupId { get; set; }
+        public int payerUserId { get; set; }
+        public int paidUserId { get; set; }
+        public int expenseId { get; set; }
+        public decimal transaction_Amount { get; set; }
+      
+
+    }
 }
