@@ -8,5 +8,6 @@ namespace SpliwiseApp.Interface
     {
         Task<ActionResult> RegisterUserAsync(UserRegister user);
         Task<ActionResult<LoginResponseDto>> LoginUserAsync(UserLogin user);
+        Task<ActionResult> CreateGroupAsync(CreatGroup group);
     }
 }

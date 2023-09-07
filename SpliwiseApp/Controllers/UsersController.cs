@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
@@ -139,42 +140,19 @@ namespace SpliwiseApp.Controllers
 
             return Ok(new { loginResult.Value.Token,loginResult.Value.Profile});
         }
-        //    var searchUser = _context.Users.SingleOrDefault(u => u.email == user.email);
-        //    if (searchUser == null || (searchUser.password != user.password))
-        //    {
-        //        return Unauthorized(new { error = "Login failed due to incorrect credentials" });
-        //    }
-        //    return Ok(new
-        //    {
 
-        //        profile = new
-        //        {
-        //            email = user.email,
+        [Authorize]
+        [HttpPost("creategroup")]
+        public async Task<ActionResult<Group>> CreateGroup(CreatGroup group)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _userService.CreateGroupAsync(group);
+            return result;
 
-        //        }
-        //    });
-        //}
-
-        //[HttpPost("creategroup")]
-        //public async Task<ActionResult<Group>> CreateGroup(CreatGroup group)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    var newGroup = new Group
-        //    {
-        //        CreatedDate = DateTime.Now,
-        //        Name = group.Name,
-        //        Description = group.Description,
-        //    };
-        //    _context.Groups.Add(newGroup);
-        //    await _context.SaveChangesAsync();
-
-        //    return newGroup;
-
-        //}
+        }
         //[HttpPost("addUserToGroup")]
         //public async Task<ActionResult<Group>> AddToGroup(int groupId, int userId)
         //{

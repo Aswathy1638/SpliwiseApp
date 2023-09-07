@@ -4,11 +4,11 @@ namespace SpliwiseApp.Models
 {
     public class Transaction
     {
-        public string Id { get; set; }
-        public string groupId { get; set; }
+        public int Id { get; set; }
+        public int groupId { get; set; }
         public string payerUserId { get; set; }
         public string paidUserId { get; set; }
-        public string expenseId { get; set; }
+        public int expenseId { get; set; }
         public decimal transaction_Amount { get; set; }
         public DateTime transaction_Date { get; set; }
 

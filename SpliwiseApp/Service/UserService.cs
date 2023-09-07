@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -85,6 +86,21 @@ namespace SpliwiseApp.Service
 
             };
 
+
+        }
+
+      
+        public async Task<ActionResult> CreateGroupAsync(CreatGroup group)
+        {
+           var groupName = await _userRepository.FindByName(group.Name);
+
+            if (groupName!=null)
+            {
+                return new ConflictObjectResult(new { message = "The chosen group name already exists." });
+
+            }
+            var result = await _userRepository.CreateGroupAsync(group);
+            return new OkObjectResult(result);
 
         }
 
