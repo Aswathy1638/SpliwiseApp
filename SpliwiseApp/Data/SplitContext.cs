@@ -12,6 +12,7 @@ namespace SpliwiseApp.Data
             { 
         }
 
+        public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<IdentityUser> Users { get; set; }
         public DbSet<Balance> Balances { get; set; }
         public DbSet<Expense> Expenses { get; set; }
@@ -23,24 +24,36 @@ namespace SpliwiseApp.Data
             base.OnModelCreating(modelBuilder);
 
            
-            // Group-Expense Relationship (One-to-Many)
             modelBuilder.Entity<Expense>()
                 .HasOne(e => e.Group)
                 .WithMany(g => g.Expenses)
                 .HasForeignKey(e => e.GroupId);
 
-            // Expense-Transaction Relationship (One-to-Many)
             modelBuilder.Entity<Transaction>()
                 .HasOne(t => t.Expense)
                 .WithMany(e => e.Transactions)
                 .HasForeignKey(t => t.expenseId);
 
-            // User-Balance Relationship (One-to-Many)
+            
             modelBuilder.Entity<Balance>()
                 .HasOne(b => b.user)
                 .WithMany()
                 .HasForeignKey(b => b.userId);
-        }
 
+            modelBuilder.Entity<UserGroup>()
+                .HasKey(ug => new { ug.UserId, ug.GroupId });
+
+            modelBuilder.Entity<UserGroup>()
+                .HasOne(ug => ug.User)
+                .WithMany()
+                .HasForeignKey(ug => ug.UserId);
+
+            modelBuilder.Entity<UserGroup>()
+                .HasOne(ug => ug.Group)
+                .WithMany()
+                .HasForeignKey(ug => ug.GroupId);
+        }
     }
+
+    
 }

@@ -25,7 +25,7 @@ namespace SpliwiseApp.Controllers
         public UsersController(SplitContext context, IUserService userService)
         {
             _context = context;
-            _userService = userService; 
+            _userService = userService;
         }
 
 
@@ -138,11 +138,11 @@ namespace SpliwiseApp.Controllers
             }
             var loginResult = await _userService.LoginUserAsync(user);
 
-            return Ok(new { loginResult.Value.Token,loginResult.Value.Profile});
+            return Ok(new { loginResult.Value.Token, loginResult.Value.Profile });
         }
 
         [Authorize]
-        [HttpPost("creategroup")]
+        [HttpPost("group")]
         public async Task<ActionResult<Group>> CreateGroup(CreatGroup group)
         {
             if (!ModelState.IsValid)
@@ -153,26 +153,18 @@ namespace SpliwiseApp.Controllers
             return result;
 
         }
-        //[HttpPost("addUserToGroup")]
-        //public async Task<ActionResult<Group>> AddToGroup(int groupId, int userId)
-        //{
-        //    if (groupId <= 0 || userId <= 0)
-        //    { return BadRequest(ModelState); }
-        //    var searchGroup = _context.Groups.SingleOrDefault(g => g.Id == groupId);
-        //    var searchUser = _context.Users.SingleOrDefault(u => u.id == userId);
-        //    if (searchGroup == null || searchUser == null)
-        //    {
-        //        return BadRequest(new { error = "user or group not found" });
-        //    }
-        //    if (searchGroup.Users.Any(u => u.id == userId))
-        //    {
-        //        return BadRequest(new { error = "User is already in this group" });
-        //    }
-        //    searchGroup.Users.Add(searchUser);
-        //    await _context.SaveChangesAsync();
-        //    return Ok(new { message = " user added to the group" });
+        [Authorize]
+        [HttpPost("group/{groupId}/users")]
+        public async Task<ActionResult<Group>> AddToGroup(string groupname, string email)
+        {
+            if (groupname == null || email == null)
+            { 
+                return BadRequest(ModelState);
+            }
+            var result = await _userService.AddUserAsync(groupname, email);
+            return Ok(new { message = " user added to the group" });
 
-        //}
+        }
 
         //// DELETE: api/Users/5
         //[HttpDelete("{id}")]

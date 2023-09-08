@@ -9,6 +9,7 @@ namespace SpliwiseApp.Interface
         Task<IdentityResult> CreateAsync(IdentityUser user, string Password);
         Task <Group>FindByName(string name);
         Task<Group> CreateGroupAsync(CreatGroup group);
+        Task<Group> AddUserToGroupAsync(string groupname, string email);
 
 
     }

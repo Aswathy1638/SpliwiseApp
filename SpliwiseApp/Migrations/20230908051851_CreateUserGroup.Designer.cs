@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SpliwiseApp.Data;
 
@@ -11,9 +12,11 @@ using SpliwiseApp.Data;
 namespace SpliwiseApp.Migrations
 {
     [DbContext(typeof(SplitContext))]
-    partial class SplitContextModelSnapshot : ModelSnapshot
+    [Migration("20230908051851_CreateUserGroup")]
+    partial class CreateUserGroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

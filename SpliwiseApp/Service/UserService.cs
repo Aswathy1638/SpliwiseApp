@@ -104,6 +104,26 @@ namespace SpliwiseApp.Service
 
         }
 
+        public async Task<ActionResult<Group>> AddUserAsync(string groupname, string email)
+        {
+            var user = await _userRepository.FindByEmailAsync(email);
+            var group = await _userRepository.FindByName(groupname);
+
+            if(user ==  null || group == null)
+            {
+                return new BadRequestObjectResult(new { message = "User or Group does not exist" });
+            }
+            if(group.Users.Any(u => u.Email == email))
+            {
+                return new BadRequestObjectResult(new { message = "User is already registerd with this group" });
+            }
+           
+
+            var result = await _userRepository.AddUserToGroupAsync(groupname, email);
+            return new OkObjectResult(result);
+
+        }
+
         private string GenerateJwtToken(string id, string name, string email)
         {
             if (id == null || name == null || email == null)

@@ -48,5 +48,25 @@ namespace SpliwiseApp.Repositories
             return existing;
 
         }
+        public async Task<Group> AddUserToGroupAsync(string groupname, string email)
+        {
+            var group = await _splitContext.Groups.FirstOrDefaultAsync(g => g.Name == groupname);
+            var user = await _userManager.FindByEmailAsync(email);
+            
+          
+
+            var newUserGroup = new UserGroup
+            {
+                UserId = user.Id,
+                GroupId = group.Id,
+            };
+
+            _splitContext.UserGroups.Add(newUserGroup);
+           group.Users.Add(user);
+            await _splitContext.SaveChangesAsync();
+
+            return group;
+
+        }
     }
 }
