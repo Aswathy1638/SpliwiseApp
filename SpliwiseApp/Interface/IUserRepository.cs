@@ -10,6 +10,7 @@ namespace SpliwiseApp.Interface
         Task <Group>FindByName(string name);
         Task<Group> CreateGroupAsync(CreatGroup group);
         Task<Group> AddUserToGroupAsync(string groupname, string email);
+        Task<IEnumerable<UserProfile>> GetAllUsersAsync(int groupId);
 
 
     }

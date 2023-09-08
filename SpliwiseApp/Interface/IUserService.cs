@@ -10,5 +10,6 @@ namespace SpliwiseApp.Interface
         Task<ActionResult<LoginResponseDto>> LoginUserAsync(UserLogin user);
         Task<ActionResult> CreateGroupAsync(CreatGroup group);
         Task <ActionResult<Group>>AddUserAsync(string groupname, string email);
+        Task <ActionResult> GetAllUsersAsync(int groupId);
     }
 }

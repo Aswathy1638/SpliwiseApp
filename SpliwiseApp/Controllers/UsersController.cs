@@ -30,30 +30,17 @@ namespace SpliwiseApp.Controllers
 
 
         // To fetch all users in a group
-        //[HttpGet("usersinGroup{groupId}")]
-        //public async Task<ActionResult<List<IdentityUser>>> GetUserinGroup(int groupId)
-        //{
-        //    if (_context.Users == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var group = await _context.Groups.
-        //        Include(g => g.Users)
-        //        .FirstOrDefaultAsync(g => g.Id == groupId);
+        [HttpGet("groups/{groupId}/users")]
+        public async Task<ActionResult<List<IdentityUser>>> GetUserinGroup(int groupId)
+        {
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+            var users = await _userService.GetAllUsersAsync(groupId);
 
-        //    if (group == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var usersIn = group.Users
-        //        .Select(u => new User
-        //        {
-        //            id = u.id,
-        //            name = u.name,
-        //            email = u.email
-        //        });
-        //    return Ok(usersIn);
-        //}
+            return users;
+        }
 
         //To fetch all the groups of a user
 
@@ -165,6 +152,8 @@ namespace SpliwiseApp.Controllers
             return Ok(new { message = " user added to the group" });
 
         }
+
+
 
         //// DELETE: api/Users/5
         //[HttpDelete("{id}")]

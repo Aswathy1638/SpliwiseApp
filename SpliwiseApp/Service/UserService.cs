@@ -123,7 +123,11 @@ namespace SpliwiseApp.Service
             return new OkObjectResult(result);
 
         }
-
+        public async Task<ActionResult> GetAllUsersAsync(int groupId)
+        {
+            var result = await _userRepository.GetAllUsersAsync(groupId);
+            return new OkObjectResult(result);
+        }
         private string GenerateJwtToken(string id, string name, string email)
         {
             if (id == null || name == null || email == null)
