@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Text.Json.Serialization;
 
 namespace SpliwiseApp.Models
 {
@@ -12,6 +13,7 @@ namespace SpliwiseApp.Models
         public decimal amount { get; set; }
         public decimal shareAmount { get; set; }
 
+        [JsonIgnore]
         public Group Group { get; set; }
         public ICollection<IdentityUser> Participants { get; set; }
         public ICollection<Transaction> Transactions { get; set; }

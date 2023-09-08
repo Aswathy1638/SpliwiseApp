@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Text.Json.Serialization;
 
 namespace SpliwiseApp.Models
 {
@@ -10,6 +11,7 @@ namespace SpliwiseApp.Models
         public DateTime CreatedDate { get; set; }
 
         public ICollection<IdentityUser> Users { get; set; } = new List<IdentityUser>();
+        [JsonIgnore]
         public ICollection<Expense> Expenses { get; set; }
     }
     public class CreatGroup
