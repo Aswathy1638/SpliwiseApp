@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SpliwiseApp.Data;
 using SpliwiseApp.Interface;
@@ -88,6 +89,32 @@ namespace SpliwiseApp.Repositories
                 });
             return usersIn.ToList();
 
+        }
+
+        public async Task<IEnumerable<Models.Group>> GetAllGroupsAsync(string userId)
+        {
+            var users = await _userManager.FindByIdAsync(userId);
+            if (users == null)
+            {
+                return null;
+            }
+            var groups = _splitContext.UserGroups
+               .Where(u =>u.UserId ==  userId)
+               .Select(g =>g.GroupId) 
+               .ToList();
+             
+            var groupsUser = await _splitContext.Groups.Where(g => groups.Contains(g.Id))
+                .Select(u => new Models.Group
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    Description = u.Description,
+                    CreatedDate =u.CreatedDate,
+                    
+                })
+                .ToListAsync();
+
+            return  groupsUser;
         }
     }
 }

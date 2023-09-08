@@ -44,67 +44,22 @@ namespace SpliwiseApp.Controllers
 
         //To fetch all the groups of a user
 
-        //[HttpGet("groupsofUser{userId}")]
-        //public async Task<ActionResult<List<Group>>> GetGroupsofUser(int userId)
-        //{
-        //    if (_context.Users == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var user = await _context.Users.
-        //        Include(g => g.Groups)
-        //        .FirstOrDefaultAsync(g => g.id == userId);
+        [HttpGet("user/{userId}/groups")]
+        public async Task<ActionResult<List<Group>>> GetGroupsofUser(string userId)
+        {
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+            var groups = await _userService.GetAllGroupsAsync(userId);
 
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var groupsIn = user.Groups
-        //        .Select(u => new Group
-        //        {
-        //            Id = u.Id,
-        //            Name = u.Name,
-        //            Description = u.Description
-        //        });
-        //    return Ok(groupsIn);
-        //}
-
-
-        // PUT: api/Users/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutUser(int id, User user)
-        //{
-        //    if (id != user.id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(user).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!UserExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-        // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //Register User
-        [HttpPost("register")]
+            return groups;
+        }
+           
+            // POST: api/Users
+            // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+            //Register User
+            [HttpPost("register")]
         public async Task<ActionResult> PostUser(UserRegister user)
         {
             if (!ModelState.IsValid)
@@ -155,30 +110,6 @@ namespace SpliwiseApp.Controllers
 
 
 
-        //// DELETE: api/Users/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteUser(int id)
-        //{
-        //    if (_context.Users == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var user = await _context.Users.FindAsync(id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Users.Remove(user);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
-
-        //private bool UserExists(int id)
-        //{
-        //    return (_context.Users?.Any(e => e.id == id)).GetValueOrDefault();
-        //}
     }
 
 

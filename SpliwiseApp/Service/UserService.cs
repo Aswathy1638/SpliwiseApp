@@ -128,6 +128,12 @@ namespace SpliwiseApp.Service
             var result = await _userRepository.GetAllUsersAsync(groupId);
             return new OkObjectResult(result);
         }
+
+        public async Task<ActionResult> GetAllGroupsAsync(string userId)
+        {
+            var result = await _userRepository.GetAllGroupsAsync(userId);
+            return new OkObjectResult(result);
+        }
         private string GenerateJwtToken(string id, string name, string email)
         {
             if (id == null || name == null || email == null)
