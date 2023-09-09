@@ -133,7 +133,16 @@ namespace SpliwiseApp.Repositories
                 await _splitContext.SaveChangesAsync();
             }
         }
-
+        public async Task<decimal> GetBalance(string userId)
+        {
+            var userBalance =  _splitContext.Balances.Where(u => u.userId == userId || u.debtUserId == userId);
+            decimal balAmount = 0;
+            foreach(var balance in userBalance) 
+            {
+                balAmount += balance.balance_amount;
+            }
+            return balAmount;
+        }
     }
     
 }

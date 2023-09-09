@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SpliwiseApp.Data;
@@ -49,6 +50,13 @@ namespace SpliwiseApp.Controllers
             var createTransaction = await _expenseService.CreateTransactionAsync(transaction);
 
             return createTransaction;
+        }
+
+        [HttpGet("Expense/Balance")]
+        public async Task<decimal> GetUserinGroup(string userId)
+        {
+            var userBalnce = await _expenseService.GetBalanceAync(userId);
+            return userBalnce;
         }
 
 

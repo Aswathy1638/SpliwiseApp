@@ -27,5 +27,11 @@ namespace SpliwiseApp.Service
 
             return new OkObjectResult(result);
         }
+
+        public async Task<decimal> GetBalanceAync(string userId)
+        {
+            var balance = await _expenseRepository.GetBalance(userId);
+            return balance;
+        }
     }
 }

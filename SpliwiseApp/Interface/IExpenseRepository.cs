@@ -9,5 +9,6 @@ namespace SpliwiseApp.Interface
         Task AddToBalanceTable(CreateExpense expense);
         Task AddTransactionAsync(CreateTransaction transaction);
         Task UpdateBalanceTable(string paidUserId,string payerUserId,decimal amount);
+        Task <decimal> GetBalance(string userId);
     }
 }
