@@ -53,9 +53,24 @@ namespace SpliwiseApp.Controllers
         }
 
         [HttpGet("Expense/Balance")]
-        public async Task<decimal> GetUserinGroup(string userId)
+        public async Task<decimal> GetBalance(string userId)
         {
             var userBalnce = await _expenseService.GetBalanceAync(userId);
+            return userBalnce;
+        }
+
+
+        [HttpGet("Expense/Balance/owe")]
+        public async Task<decimal> GetOweBalance(string userId)
+        {
+            var userBalnce = await _expenseService.GetOweBalanceAsync(userId);
+            return userBalnce;
+        }
+
+        [HttpGet("Expense/Balance/Owed")]
+        public async Task<decimal> GetUserinGroup(string userId)
+        {
+            var userBalnce = await _expenseService.GetOwedBalanceAsync(userId);
             return userBalnce;
         }
 

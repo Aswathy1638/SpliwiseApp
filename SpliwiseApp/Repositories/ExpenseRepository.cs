@@ -143,6 +143,35 @@ namespace SpliwiseApp.Repositories
             }
             return balAmount;
         }
+
+        public async Task<decimal> GetOwedBalance(string userId)
+        {
+            var userBalance = _splitContext.Balances.Where(u => u.userId == userId || u.debtUserId == userId);
+            decimal balAmount = 0;
+            foreach (var balance in userBalance)
+            {
+                if(balance.balance_amount < 0)
+                {
+
+                balAmount += balance.balance_amount;
+                }
+            }
+            return balAmount;
+        }
+        public async Task<decimal> GetOweBalance(string userId)
+        {
+            var userBalance = _splitContext.Balances.Where(u => u.userId == userId || u.debtUserId == userId);
+            decimal balAmount = 0;
+            foreach (var balance in userBalance)
+            {
+                if (balance.balance_amount > 0)
+                {
+
+                    balAmount += balance.balance_amount;
+                }
+            }
+            return balAmount;
+        }
     }
     
 }

@@ -33,5 +33,17 @@ namespace SpliwiseApp.Service
             var balance = await _expenseRepository.GetBalance(userId);
             return balance;
         }
+
+        public async Task<decimal> GetOweBalanceAsync(string userId)
+        {
+            var balance = await _expenseRepository.GetOweBalance(userId);
+            return balance;
+        }
+
+        public async Task<decimal> GetOwedBalanceAsync(string userId)
+        {
+            var balance = await _expenseRepository.GetOwedBalance(userId);
+            return balance;
+        }
     }
 }
