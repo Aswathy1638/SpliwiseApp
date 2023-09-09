@@ -101,45 +101,39 @@ namespace SpliwiseApp.Repositories
             }
 
         }
+        public async Task AddTransactionAsync(CreateTransaction transaction)
+        {
+            var newTransaction = new Transaction
+            {
+                groupId = transaction.groupId,
+                payerUserId = transaction.payerUserId,
+                paidUserId = transaction.paidUserId,
+                expenseId = transaction.expenseId,
+                transaction_Amount = transaction.transaction_Amount,
+                transaction_Date = DateTime.Now,
+            };
+            _splitContext.Transactions.Add(newTransaction);
+            await _splitContext.SaveChangesAsync();
+
+        }
+
+        public async Task UpdateBalanceTable(string paidUserId, string payerUserId, decimal transaction_Amount)
+        {
+            var paidUserBalance = await _splitContext.Balances.FirstOrDefaultAsync(u => u.userId == paidUserId);
+            var payerUserBalance = await _splitContext.Balances.FirstOrDefaultAsync(u => u.userId == payerUserId);
+
+            if (paidUserBalance != null && payerUserBalance != null)
+            {
+                paidUserBalance.balance_amount -= transaction_Amount;
+                payerUserBalance.balance_amount += transaction_Amount;
+
+                _splitContext.Balances.Update(paidUserBalance);
+                _splitContext.Balances.Update(payerUserBalance);
+
+                await _splitContext.SaveChangesAsync();
+            }
+        }
+
     }
+    
 }
-//var groupUsers = await _context.Groups
-//    .Include(g => g.Users)
-//    .FirstOrDefaultAsync(g => g.Id == newExpense.GroupId);
-//if (groupUsers == null)
-//{
-//    return NotFound(new { error = " Not found" });
-//}
-//foreach (var user in groupUsers.Users)
-//{
-//    var newParticipants = new Participants
-//    {
-//        GroupId = expense.GroupId,
-//        UserId = user.Id,
-//        amount = expense.shareAmount,
-//    };
-//    _context.Participants.Add(newParticipants);
-//    if (user.Id != newExpense.UserId)
-//    {
-//        var newBalance = new Balance
-//        {
-//            userId = user.Id,
-//            debtUserId = newExpense.UserId,
-//            balance_amount = expense.shareAmount
-
-//        };
-//        _context.Expenses.Add(newExpense);
-//        _context.Balances.Add(newBalance);
-//    }
-//    else
-//    {
-//        var newBalance = new Balance
-//        {
-
-//            userId = newExpense.UserId,
-//            debtUserId = newExpense.UserId,
-//            balance_amount = expense.shareAmount - expense.amount
-//        };
-//        _context.Expenses.Add(newExpense);
-//        _context.Balances.Add(newBalance);
-//    }

@@ -19,5 +19,13 @@ namespace SpliwiseApp.Service
            
             return new OkObjectResult(result);
         }
+
+        public async Task<ActionResult> CreateTransactionAsync(CreateTransaction transaction)
+        {
+            var result = _expenseRepository.AddTransactionAsync(transaction);
+            await _expenseRepository.UpdateBalanceTable(transaction.paidUserId,transaction.payerUserId,transaction.transaction_Amount);
+
+            return new OkObjectResult(result);
+        }
     }
 }

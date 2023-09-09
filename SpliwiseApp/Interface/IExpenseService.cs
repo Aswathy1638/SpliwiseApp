@@ -7,6 +7,6 @@ namespace SpliwiseApp.Interface
     {
 
         Task<ActionResult> CreateAsync(CreateExpense expense);
-
+        Task<ActionResult> CreateTransactionAsync(CreateTransaction transaction);
     }
 }
