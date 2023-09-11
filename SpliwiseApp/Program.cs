@@ -66,6 +66,11 @@ namespace SpliwiseApp
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
             }
+            app.UseCors(builder => builder.WithOrigins("http://localhost:4200").
+            AllowAnyMethod().
+           AllowCredentials().
+            AllowAnyHeader());
+
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
