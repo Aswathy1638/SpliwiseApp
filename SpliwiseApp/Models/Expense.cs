@@ -31,4 +31,10 @@ namespace SpliwiseApp.Models
         public decimal shareAmount { get; set; }
 
     }
+    public class ExpenseResult
+    {
+        public string GroupName;
+        public decimal YouOwe;
+        public decimal Owed;
+    }
 }

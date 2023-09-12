@@ -5,6 +5,7 @@ using SpliwiseApp.Data;
 using SpliwiseApp.Interface;
 using SpliwiseApp.Models;
 using System.Text.RegularExpressions;
+using System.Xml.Schema;
 
 namespace SpliwiseApp.Repositories
 {
@@ -172,6 +173,19 @@ namespace SpliwiseApp.Repositories
             }
             return balAmount;
         }
+
+        public async Task<ActionResult<List<Expense>>> GetExpenseDetails(string userId)
+        {
+           
+           var result = await _splitContext.Expenses
+        .Where(e => e.UserId == userId || e.paiduser_id == userId)
+        .ToListAsync();
+           
+               
+            return result;
+        }
+
     }
-    
 }
+    
+

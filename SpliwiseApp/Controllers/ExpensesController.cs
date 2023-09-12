@@ -73,7 +73,16 @@ namespace SpliwiseApp.Controllers
             var userBalnce = await _expenseService.GetOwedBalanceAsync(userId);
             return userBalnce;
         }
+        [HttpGet("Expense/{userId}")]
+        public async Task<ActionResult<List<Expense>>> GetExpenseDetails(string userId)
+        {
+            var Expense = await _expenseService.GetExpenseDetails(userId);
+            Console.WriteLine(Expense);
 
+
+            return Expense;
+        }
+        
 
     }
 }

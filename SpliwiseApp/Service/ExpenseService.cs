@@ -45,5 +45,12 @@ namespace SpliwiseApp.Service
             var balance = await _expenseRepository.GetOwedBalance(userId);
             return balance;
         }
+
+        public async Task<ActionResult<List<Expense>>> GetExpenseDetails(string userId)
+        {
+            var result = await _expenseRepository.GetExpenseDetails(userId); 
+
+            return result;
+        }
     }
 }
