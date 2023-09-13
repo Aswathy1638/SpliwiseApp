@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -30,7 +31,7 @@ namespace SpliwiseApp.Controllers
 
 
         // To fetch all users in a group
-        [HttpGet("groups/{groupId}/users")]
+        [HttpGet("groups/users/{groupId}")]
         public async Task<ActionResult<List<IdentityUser>>> GetUserinGroup(int groupId)
         {
             if (_context.Users == null)
@@ -89,14 +90,27 @@ namespace SpliwiseApp.Controllers
         {
             if (!ModelState.IsValid)
             {
+                Console.WriteLine(ErrorEventArgs.Empty);
                 return BadRequest(ModelState);
+
+                
             }
             var result = await _userService.CreateGroupAsync(group);
             return result;
 
         }
         [Authorize]
-        [HttpPost("group/{groupId}/users")]
+        [HttpGet("friends")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            string currentUser = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+            var users = await _userService.GetFriends(currentUser);
+            return Ok(users);
+        }
+
+
+        [Authorize]
+        [HttpPost("group/users")]
         public async Task<ActionResult<Group>> AddToGroup(string groupname, string email)
         {
             if (groupname == null || email == null)

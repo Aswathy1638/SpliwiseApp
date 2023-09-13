@@ -116,5 +116,17 @@ namespace SpliwiseApp.Repositories
 
             return  groupsUser;
         }
+
+        public async Task<List<UserProfile>> GetFriendsAsync(string currentUserEmail)
+        {
+            var allUsers = await _userManager.Users.ToListAsync();
+            var users= allUsers.Where(u=>u.Email != currentUserEmail).Select(u=>new UserProfile
+            {
+                id = u.Id,
+                name =u.UserName,
+                email=u.Email
+            }).ToList();
+            return users;
+        }
     }
 }

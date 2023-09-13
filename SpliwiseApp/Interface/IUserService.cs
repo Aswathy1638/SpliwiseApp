@@ -12,5 +12,6 @@ namespace SpliwiseApp.Interface
         Task <ActionResult<Group>>AddUserAsync(string groupname, string email);
         Task <ActionResult> GetAllUsersAsync(int groupId);
         Task<ActionResult> GetAllGroupsAsync(string userId);
+        Task<List<UserProfile>> GetFriends(string currentUserEmail);
     }
 }

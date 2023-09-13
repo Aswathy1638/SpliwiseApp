@@ -104,6 +104,11 @@ namespace SpliwiseApp.Service
 
         }
 
+        public async Task<List<UserProfile>> GetFriends(string currentUserEmail)
+        {
+            return await _userRepository.GetFriendsAsync(currentUserEmail);
+        }
+
         public async Task<ActionResult<Group>> AddUserAsync(string groupname, string email)
         {
             var user = await _userRepository.FindByEmailAsync(email);
