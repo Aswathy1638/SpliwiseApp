@@ -43,7 +43,7 @@ namespace SpliwiseApp.Controllers
         [HttpPost("Transaction")]
         public async Task<ActionResult<CreateTransaction>> MakeTransaction(CreateTransaction transaction)
         {
-            if (_context.Transactions == null)
+            if (transaction == null)
             {
                 return Problem("Entity set 'SplitContext.Expenses'  is null.");
             }

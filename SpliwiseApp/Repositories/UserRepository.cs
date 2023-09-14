@@ -26,8 +26,9 @@ namespace SpliwiseApp.Repositories
         {
             return _userManager.CreateAsync(user,Password);
         }
-        public Task<Models.Group> CreateGroupAsync(CreatGroup group)
+        public async Task<Models.Group> CreateGroupAsync(CreatGroup group, string email)
         {
+
             var newGroup = new Models.Group
             {
                
@@ -35,9 +36,10 @@ namespace SpliwiseApp.Repositories
                 Name = group.Name,
                 Description = group.Description,
             };
-            _splitContext.Groups.Add(newGroup);
-            _splitContext.SaveChangesAsync();
-            return Task.FromResult(newGroup);
+           await _splitContext.Groups.AddAsync(newGroup);
+            
+            await _splitContext.SaveChangesAsync();
+            return (newGroup);
         }
         public async Task<Models.Group> FindByName(string name)
         {

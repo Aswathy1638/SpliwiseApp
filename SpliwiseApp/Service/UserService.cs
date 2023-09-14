@@ -90,7 +90,7 @@ namespace SpliwiseApp.Service
         }
 
       
-        public async Task<ActionResult> CreateGroupAsync(CreatGroup group)
+        public async Task<ActionResult> CreateGroupAsync(CreatGroup group, string e)
         {
            var groupName = await _userRepository.FindByName(group.Name);
 
@@ -99,7 +99,8 @@ namespace SpliwiseApp.Service
                 return new ConflictObjectResult(new { message = "The chosen group name already exists." });
 
             }
-            var result = await _userRepository.CreateGroupAsync(group);
+            var result = await _userRepository.CreateGroupAsync(group,e);
+           
             return new OkObjectResult(result);
 
         }

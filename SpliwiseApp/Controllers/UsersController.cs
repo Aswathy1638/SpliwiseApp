@@ -88,6 +88,7 @@ namespace SpliwiseApp.Controllers
         [HttpPost("group")]
         public async Task<ActionResult<Group>> CreateGroup(CreatGroup group)
         {
+            string currentUser = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
             if (!ModelState.IsValid)
             {
                 Console.WriteLine(ErrorEventArgs.Empty);
@@ -95,7 +96,11 @@ namespace SpliwiseApp.Controllers
 
                 
             }
-            var result = await _userService.CreateGroupAsync(group);
+           
+            var result = await _userService.CreateGroupAsync(group,currentUser);
+
+            await _userService.AddUserAsync(group.Name, currentUser);
+
             return result;
 
         }

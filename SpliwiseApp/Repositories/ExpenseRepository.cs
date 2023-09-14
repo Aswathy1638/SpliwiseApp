@@ -20,6 +20,7 @@ namespace SpliwiseApp.Repositories
 
         public async Task<Expense> AddExpenseAsync(CreateExpense expense)
         {
+
             var newExpense = new Expense
             {
                 Description = expense.Description,
@@ -32,6 +33,7 @@ namespace SpliwiseApp.Repositories
             };
 
             await _splitContext.Expenses.AddAsync(newExpense);
+            await UpdateBalanceTable(expense.UserId, expense.paiduser_id, expense.amount);
             await _splitContext.SaveChangesAsync();
             return newExpense;
 
@@ -83,6 +85,7 @@ namespace SpliwiseApp.Repositories
                     };
 
                     _splitContext.Balances.Add(newBalance);
+                    
                     await _splitContext.SaveChangesAsync();
 
                 }
@@ -96,13 +99,14 @@ namespace SpliwiseApp.Repositories
                         balance_amount = expense.shareAmount - expense.amount
                     };
                     _splitContext.Balances.Add(newBalance);
+
                     await _splitContext.SaveChangesAsync();
                 }
 
             }
 
         }
-        public async Task AddTransactionAsync(CreateTransaction transaction)
+        public async Task<Transaction> AddTransactionAsync(CreateTransaction transaction)
         {
             var newTransaction = new Transaction
             {
@@ -113,8 +117,10 @@ namespace SpliwiseApp.Repositories
                 transaction_Amount = transaction.transaction_Amount,
                 transaction_Date = DateTime.Now,
             };
-            _splitContext.Transactions.Add(newTransaction);
+            await _splitContext.Transactions.AddAsync(newTransaction);
+            await UpdateBalanceTable(transaction.paidUserId, transaction.payerUserId, transaction.transaction_Amount);
             await _splitContext.SaveChangesAsync();
+            return newTransaction;
 
         }
 

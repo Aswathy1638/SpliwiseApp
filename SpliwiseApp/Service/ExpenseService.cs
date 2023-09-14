@@ -22,8 +22,8 @@ namespace SpliwiseApp.Service
 
         public async Task<ActionResult> CreateTransactionAsync(CreateTransaction transaction)
         {
-            var result = _expenseRepository.AddTransactionAsync(transaction);
-            await _expenseRepository.UpdateBalanceTable(transaction.paidUserId,transaction.payerUserId,transaction.transaction_Amount);
+            var result = await  _expenseRepository.AddTransactionAsync(transaction);
+          
 
             return new OkObjectResult(result);
         }
