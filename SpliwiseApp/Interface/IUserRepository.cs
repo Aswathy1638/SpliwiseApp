@@ -13,6 +13,8 @@ namespace SpliwiseApp.Interface
         Task<IEnumerable<UserProfile>> GetAllUsersAsync(int groupId);
         Task<IEnumerable<Group>> GetAllGroupsAsync(string userId);
         Task<List<UserProfile>> GetFriendsAsync(string currentUserEmail);
+        Task<FriendShip> AddFriendAsync(string email, string current);
+        Task<List<FriendShip>> GetMyFriends(string currentUser);
 
     }
 

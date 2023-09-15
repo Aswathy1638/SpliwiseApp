@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SpliwiseApp.Data;
 using SpliwiseApp.Interface;
 using SpliwiseApp.Models;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 
 namespace SpliwiseApp.Repositories
@@ -72,6 +74,8 @@ namespace SpliwiseApp.Repositories
             return group;
 
         }
+
+        
         public async Task<IEnumerable<UserProfile>> GetAllUsersAsync(int groupId)
         {
             var group = await _splitContext.Groups.
@@ -130,5 +134,36 @@ namespace SpliwiseApp.Repositories
             }).ToList();
             return users;
         }
+
+        public async Task<FriendShip> AddFriendAsync(string email,string current)
+        {
+            var friend = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(current);
+
+            var newFriend = new FriendShip
+            {
+                FriendId = friend.Id,
+                UserId = user.Id,
+                FriendName = friend.UserName,
+                UserName=user.UserName
+
+            };
+            await _splitContext.FriendShip.AddAsync(newFriend);
+            await _splitContext.SaveChangesAsync();
+            return newFriend;
+
+        }
+
+        public async Task<List<FriendShip>> GetMyFriends(string currentUser)
+        {
+            var user = await _userManager.FindByEmailAsync(currentUser);
+            Console.WriteLine(user);
+            Console.WriteLine(user.Id);
+            var friends =  _splitContext.FriendShip.Where(u => u.UserId == user.Id ).ToList();
+            Console.WriteLine($"Friends: {friends}");
+            return friends;
+        }
+
+
     }
 }

@@ -14,6 +14,7 @@ namespace SpliwiseApp.Data
 
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<IdentityUser> Users { get; set; }
+        public DbSet<FriendShip> FriendShip { get; set; }
         public DbSet<Balance> Balances { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Group> Groups { get; set; }
@@ -42,6 +43,8 @@ namespace SpliwiseApp.Data
 
             modelBuilder.Entity<UserGroup>()
                 .HasKey(ug => new { ug.UserId, ug.GroupId });
+            modelBuilder.Entity<Friends>()
+                .HasKey(ug => new { ug.UserId });
 
             modelBuilder.Entity<UserGroup>()
                 .HasOne(ug => ug.User)

@@ -13,5 +13,7 @@ namespace SpliwiseApp.Interface
         Task <ActionResult> GetAllUsersAsync(int groupId);
         Task<ActionResult> GetAllGroupsAsync(string userId);
         Task<List<UserProfile>> GetFriends(string currentUserEmail);
+        Task<ActionResult<FriendShip>> AddFriend(string email,string current);
+        Task<ActionResult> GetMyFriendsAsync(string currentUser);
     }
 }

@@ -140,6 +140,19 @@ namespace SpliwiseApp.Service
             var result = await _userRepository.GetAllGroupsAsync(userId);
             return new OkObjectResult(result);
         }
+        public async Task<ActionResult<FriendShip>> AddFriend(string email, string current)
+        {
+            var result = await _userRepository.AddFriendAsync(email,current);
+            return new OkObjectResult(result);
+        
+        }
+        public async Task<ActionResult> GetMyFriendsAsync(string currentUser)
+        {
+            var result = await _userRepository.GetMyFriends(currentUser);
+            Console.WriteLine(result);
+            return new OkObjectResult(result);
+
+        }
         private string GenerateJwtToken(string id, string name, string email)
         {
             if (id == null || name == null || email == null)
@@ -165,5 +178,8 @@ namespace SpliwiseApp.Service
 
             return Token;
         }
+
+
+
     }
 }

@@ -104,14 +104,14 @@ namespace SpliwiseApp.Controllers
             return result;
 
         }
-        [Authorize]
-        [HttpGet("friends")]
-        public async Task<IActionResult> GetAllUsers()
-        {
-            string currentUser = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
-            var users = await _userService.GetFriends(currentUser);
-            return Ok(users);
-        }
+        //[Authorize]
+        //[HttpGet("friends")]
+        //public async Task<IActionResult> GetAllUsers()
+        //{
+        //    string currentUser = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+        //    var users = await _userService.GetFriends(currentUser);
+        //    return Ok(users);
+        //}
 
 
         [Authorize]
@@ -126,7 +126,30 @@ namespace SpliwiseApp.Controllers
             return Ok(new { message = " user added to the group" });
 
         }
+        [Authorize]
 
+        [HttpPost("friends")]
+        public async Task<ActionResult<Friends>> AddAsFriend(string email)
+        {
+            if (email == null)
+            {
+                return BadRequest(ModelState);
+            }
+            var currentUser = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+            var result = await _userService.AddFriend(email,currentUser);
+            return Ok(new { message = " Added Friend" });
+        }
+
+        [Authorize]
+
+        [HttpGet("friends")]
+        public async Task<IActionResult> GetAllFriends()
+        {
+            var currentUser = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+            var result = await _userService.GetMyFriendsAsync(currentUser);
+            return result;
+
+        }
 
 
     }
