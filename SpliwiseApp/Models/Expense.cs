@@ -24,11 +24,11 @@ namespace SpliwiseApp.Models
     {
        
         public string Description { get; set; }
-        public int GroupId { get; set; }
+        public string GroupName { get; set; }
         public string UserId { get; set; }
-        public string paiduser_id { get; set; }
+        public string PaidUserName { get; set; }
         public decimal amount { get; set; }
-        public decimal shareAmount { get; set; }
+       // public decimal shareAmount { get; set; }
 
     }
     public class ExpenseResult

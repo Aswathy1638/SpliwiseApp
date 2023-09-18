@@ -129,7 +129,7 @@ namespace SpliwiseApp.Controllers
         [Authorize]
 
         [HttpPost("friends")]
-        public async Task<ActionResult<Friends>> AddAsFriend(string email)
+        public async Task<ActionResult<FriendShip>> AddAsFriend(string email)
         {
             if (email == null)
             {

@@ -13,9 +13,9 @@ namespace SpliwiseApp.Service
         }
         public async Task<ActionResult> CreateAsync(CreateExpense expense)
         {
+
             var result = await _expenseRepository.AddExpenseAsync(expense);
-            await _expenseRepository.AddParticipants(expense.GroupId,expense.shareAmount);
-            await _expenseRepository.AddToBalanceTable(expense);
+      
            
             return new OkObjectResult(result);
         }
