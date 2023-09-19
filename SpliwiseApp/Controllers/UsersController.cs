@@ -99,7 +99,7 @@ namespace SpliwiseApp.Controllers
            
             var result = await _userService.CreateGroupAsync(group,currentUser);
 
-            await _userService.AddUserAsync(group.Name, currentUser);
+           // await _userService.AddUserAsync(group.Name, currentUser);
 
             return result;
 
@@ -116,7 +116,7 @@ namespace SpliwiseApp.Controllers
 
         [Authorize]
         [HttpPost("group/users")]
-        public async Task<ActionResult<Group>> AddToGroup(string groupname, string email)
+        public async Task<ActionResult<Group>> AddToGroup(string groupname, List<string> email)
         {
             if (groupname == null || email == null)
             { 

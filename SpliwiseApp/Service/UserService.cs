@@ -110,24 +110,23 @@ namespace SpliwiseApp.Service
             return await _userRepository.GetFriendsAsync(currentUserEmail);
         }
 
-        public async Task<ActionResult<Group>> AddUserAsync(string groupname, string email)
+        public async Task<ActionResult<Group>> AddUserAsync(string groupname, List<string> emails)
         {
-            var user = await _userRepository.FindByEmailAsync(email);
             var group = await _userRepository.FindByName(groupname);
+            var usersToAdd = new List<IdentityUser>();
 
-            if(user ==  null || group == null)
+
+            foreach (var email in emails)
             {
-                return new BadRequestObjectResult(new { message = "User or Group does not exist" });
-            }
-            if(group.Users.Any(u => u.Email == email))
-            {
-                return new BadRequestObjectResult(new { message = "User is already registerd with this group" });
-            }
-           
+                var user = await _userRepository.FindByEmailAsync(email);
+                if (user == null || group == null)
+                {
+                    return new BadRequestObjectResult(new { message = "User or Group does not exist" });
 
-            var result = await _userRepository.AddUserToGroupAsync(groupname, email);
-            return new OkObjectResult(result);
-
+                }
+                    var result = await _userRepository.AddUserToGroupAsync(groupname, email);
+            }
+            return new OkObjectResult(new { message = "Users added to the group successfully" });
         }
         public async Task<ActionResult> GetAllUsersAsync(int groupId)
         {
