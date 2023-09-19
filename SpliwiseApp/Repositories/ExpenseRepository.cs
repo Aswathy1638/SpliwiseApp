@@ -24,33 +24,30 @@ namespace SpliwiseApp.Repositories
 
         public async Task<Expense> AddExpenseAsync(CreateExpense expense)
         {
-            var group = await  _splitContext.Groups.FirstOrDefaultAsync(g => g.Name == expense.GroupName);
-            var paidUesrId = await _userManager.FindByNameAsync(expense.PaidUserName);
+            var group = await  _splitContext.Groups.FirstOrDefaultAsync(g => g.Id == expense.GroupId);
+            //var paidUesrId = await _userManager.FindByNameAsync(expense.PaidUserName);
 
             if (group == null)
             {
                 return null;
             }
-            if (paidUesrId == null)
-            {
-                return null;
-            }
+        
             decimal totalMem = await _splitContext.UserGroups.Where(g => g.GroupId == group.Id).CountAsync();
             decimal share = expense.amount / totalMem;
 
             var newExpense = new Expense
             {
                 Description = expense.Description,
-                GroupId = (int)(group?.Id),
+                GroupId = expense.GroupId,
                 UserId = expense.UserId,
-                paiduser_id =paidUesrId.Id,
+                paiduser_id =expense.PaidUserId,
                 amount = expense.amount,
                 shareAmount = share,
 
             };
 
             await _splitContext.Expenses.AddAsync(newExpense);
-            await UpdateBalanceTable(paidUesrId.Id,expense.UserId , expense.amount);
+            await UpdateBalanceTable(expense.PaidUserId,expense.UserId , expense.amount);
             await AddParticipants(group.Id, share);
             await AddToBalanceTable(expense);
             await _splitContext.SaveChangesAsync();
@@ -85,7 +82,7 @@ namespace SpliwiseApp.Repositories
         public async Task AddToBalanceTable(CreateExpense expense)
         {
 
-            var groupspec = await _splitContext.Groups.FirstOrDefaultAsync(g => g.Name == expense.GroupName);
+            var groupspec = await _splitContext.Groups.FirstOrDefaultAsync(g => g.Id == expense.GroupId);
 
             var group = await _splitContext.Groups.
                          Include(g => g.Users)
