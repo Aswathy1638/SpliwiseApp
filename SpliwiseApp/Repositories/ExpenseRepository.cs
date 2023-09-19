@@ -130,19 +130,19 @@ namespace SpliwiseApp.Repositories
         }
         public async Task<Transaction> AddTransactionAsync(CreateTransaction transaction)
         {
-            var groupId = await _splitContext.Groups.FirstOrDefaultAsync(u => u.Name == transaction.GroupName);
-            var user = await _userManager.FindByNameAsync(transaction.payerName);
+            var groupId = await _splitContext.Groups.FirstOrDefaultAsync(u => u.Id == transaction.GroupId);
+            //var user = await _userManager.FindByNameAsync(transaction.payerName);
             var newTransaction = new Transaction
             {
                 groupId = groupId.Id,
                 payerUserId = transaction.paidUserId,
-                paidUserId = user.Id,
+                paidUserId = transaction.payerName,
                 expenseId = transaction.expenseId,
                 transaction_Amount = transaction.transaction_Amount,
                 transaction_Date = DateTime.Now,
             };
             await _splitContext.Transactions.AddAsync(newTransaction);
-            await UpdateBalanceTable(user.Id, transaction.paidUserId, transaction.transaction_Amount);
+            await UpdateBalanceTable(transaction.payerName, transaction.paidUserId, transaction.transaction_Amount);
             await _splitContext.SaveChangesAsync();
             return newTransaction;
 

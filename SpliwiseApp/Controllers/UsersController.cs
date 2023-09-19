@@ -104,14 +104,14 @@ namespace SpliwiseApp.Controllers
             return result;
 
         }
-        //[Authorize]
-        //[HttpGet("friends")]
-        //public async Task<IActionResult> GetAllUsers()
-        //{
-        //    string currentUser = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
-        //    var users = await _userService.GetFriends(currentUser);
-        //    return Ok(users);
-        //}
+        [Authorize]
+        [HttpGet("Users")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            string currentUser = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+            var users = await _userService.GetFriends(currentUser);
+            return Ok(users);
+        }
 
 
         [Authorize]

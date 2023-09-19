@@ -24,7 +24,7 @@ namespace SpliwiseApp.Models
     public class CreateTransaction
     {
       
-        public string GroupName { get; set; }
+        public int GroupId { get; set; }
         public string payerName { get; set; }
         public string paidUserId { get; set; }
         public int expenseId { get; set; }
