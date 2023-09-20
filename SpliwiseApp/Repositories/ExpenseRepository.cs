@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SpliwiseApp.Data;
 using SpliwiseApp.Interface;
 using SpliwiseApp.Models;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Xml.Schema;
 
@@ -213,6 +214,41 @@ namespace SpliwiseApp.Repositories
            
                
             return result;
+        }
+
+
+        public async Task<ActionResult<BalOut>> GetBalanceDetails(string otherUserId, string userId)
+        {
+            decimal owe = 0;
+            decimal owed = 0;
+        var iotherEmail = await _userManager.FindByNameAsync(userId);
+            string Oid = iotherEmail.Id;
+            var userBalance = _splitContext.Balances.Where(u => u.userId == Oid  || u.debtUserId ==otherUserId);
+            
+            foreach(var balance in userBalance)
+            {
+                if(balance.balance_amount > 0 )
+                {
+                    owe += balance.balance_amount;
+                }
+              
+            }
+            var userBal2= _splitContext.Balances.Where(u => u.userId == otherUserId || u.debtUserId == Oid);
+            foreach (var balance in userBalance)
+            {
+                if (balance.balance_amount < 0)
+                {
+                    owed += balance.balance_amount;
+                }
+
+            }
+
+            var newResult = new BalOut { 
+            owe = owe,
+            owed = owed,
+            };
+            
+            return newResult;
         }
 
     }

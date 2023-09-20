@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -81,6 +82,16 @@ namespace SpliwiseApp.Controllers
 
 
             return Expense;
+        }
+
+        [HttpGet("Expense/Balance/Details")]
+
+        public async Task<ActionResult<BalOut>> GetBalanceDetails(string userId)
+        {
+            string currentemail = HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+            Console.WriteLine(currentemail);
+            var result = await _expenseService.GetBalanceDetails(userId, currentemail);
+            return result;
         }
         
 

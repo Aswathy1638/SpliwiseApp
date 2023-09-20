@@ -100,6 +100,7 @@ namespace SpliwiseApp.Service
 
             }
             var result = await _userRepository.CreateGroupAsync(group,e);
+            await _userRepository.AddUserToGroupAsync(group.Name, e);
            
             return new OkObjectResult(result);
 
@@ -152,6 +153,11 @@ namespace SpliwiseApp.Service
             return new OkObjectResult(result);
 
         }
+
+     
+
+
+
         private string GenerateJwtToken(string id, string name, string email)
         {
             if (id == null || name == null || email == null)
@@ -177,6 +183,9 @@ namespace SpliwiseApp.Service
 
             return Token;
         }
+
+
+
 
 
 

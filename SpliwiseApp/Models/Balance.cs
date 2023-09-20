@@ -12,4 +12,12 @@ namespace SpliwiseApp.Models
         public IdentityUser user { get; set; }
 
     }
+
+
+    public class BalOut
+    {
+
+        public decimal owe { get; set; }
+        public decimal owed { get; set; }
+    }
 }

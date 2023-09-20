@@ -14,5 +14,6 @@ namespace SpliwiseApp.Interface
         Task<decimal> GetOwedBalance(string userId);
         Task<decimal> GetOweBalance(string userId);
         Task<ActionResult<List<Expense>>> GetExpenseDetails(string userId);
+        Task<ActionResult<BalOut>> GetBalanceDetails(string otherUserId, string userId);
     }
 }

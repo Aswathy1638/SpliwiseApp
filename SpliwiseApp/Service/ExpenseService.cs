@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SpliwiseApp.Interface;
 using SpliwiseApp.Models;
+using SpliwiseApp.Repositories;
 
 namespace SpliwiseApp.Service
 {
@@ -51,6 +52,13 @@ namespace SpliwiseApp.Service
             var result = await _expenseRepository.GetExpenseDetails(userId); 
 
             return result;
+        }
+
+        public async Task<ActionResult<BalOut>> GetBalanceDetails(string otherUser, string currentUser)
+        {
+            var result = await _expenseRepository.GetBalanceDetails(otherUser, currentUser);
+            return new OkObjectResult(result);
+
         }
     }
 }
