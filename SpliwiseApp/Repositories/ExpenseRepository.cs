@@ -217,43 +217,7 @@ namespace SpliwiseApp.Repositories
         }
 
 
-        //public async Task<ActionResult<BalOut>> GetBalanceDetails(string otherUserId, string userId)
-        //{
-        //    decimal owe = 0;
-        //    decimal owed = 0;
-        //var iotherEmail = await _userManager.FindByNameAsync(userId);
-        //    string Oid = iotherEmail.Id;
-        //    Console.WriteLine($"Current",userId,iotherEmail);
-        //    Console.WriteLine(Oid);
-        //    Console.WriteLine("aduth");
-        //    Console.WriteLine(otherUserId);
-        //    var userBalance = _splitContext.Balances.Where(u => u.userId == Oid  && u.debtUserId ==otherUserId || u.userId == otherUserId && u.debtUserId == Oid);
-
-        //    foreach(var balance in userBalance)
-        //    {
-        //        if(balance.balance_amount > 0 && balance.debtUserId != userId)
-        //        {
-        //            owed += balance.balance_amount;
-        //        }
-
-        //    }
-        //    var userBal2= _splitContext.Balances.Where(u => u.userId == otherUserId && u.debtUserId == Oid || u.userId == Oid && u.debtUserId == otherUserId);
-        //    foreach (var balance in userBalance)
-        //    {
-        //        if (balance.balance_amount < 0)
-        //        {
-        //            owe += balance.balance_amount;
-        //        }
-
-        //    }
-
-        //    var newResult = new BalOut { 
-        //    owe = owe,
-        //    owed = owed,
-        //    };
-
-        //    return newResult;
-        //}
+       
         public async Task<ActionResult<BalOut>> GetBalanceDetails(string otherUserId, string userId)
         {
             decimal owe = 0;
@@ -261,10 +225,7 @@ namespace SpliwiseApp.Repositories
             decimal bal = 0;
             var iotherEmail = await _userManager.FindByNameAsync(userId);
             string Oid = iotherEmail.Id;
-            Console.WriteLine($"Current", userId, iotherEmail);
-            Console.WriteLine(Oid);
-            Console.WriteLine("aduth");
-            Console.WriteLine(otherUserId);
+           
             var userBalance = _splitContext.Balances.Where(u => u.userId == Oid && u.debtUserId == otherUserId || u.userId == otherUserId && u.debtUserId == Oid ).ToList();
             foreach (var balance in userBalance)
             {
