@@ -20,6 +20,7 @@ namespace SpliwiseApp.Data
         public DbSet<Group> Groups { get; set; }
         public DbSet<Participants> Participants { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Bills> Bills { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

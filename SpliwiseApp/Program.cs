@@ -24,6 +24,12 @@ namespace SpliwiseApp
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
             builder.Services.AddScoped<IExpenseService, ExpenseService>();
+
+            builder.Services.AddScoped<IBillRepository, BillRepository>();
+            builder.Services.AddScoped<IBillService, BillService>();
+
+
+
             builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                             .AddEntityFrameworkStores<SplitContext>()
                             .AddDefaultTokenProviders();

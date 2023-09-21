@@ -13,6 +13,7 @@ namespace SpliwiseApp.Interface
         Task<decimal> GetOweBalanceAsync(string userId);
         Task<ActionResult<List<Expense>>> GetExpenseDetails(string userId);
         Task<ActionResult<BalOut>> GetBalanceDetails(string otherUser, string currentUser);
+
     }
 }
 
